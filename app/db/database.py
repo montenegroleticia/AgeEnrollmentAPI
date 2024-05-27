@@ -5,11 +5,8 @@ client = AsyncIOMotorClient(settings.MONGO_URI)
 
 db = client[settings.DATABASE_NAME]
 
-
-async def connect_to_mongo():
-    client = AsyncIOMotorClient(settings.MONGO_URI)
-    db = client[settings.DATABASE_NAME]
-    return db
+async def create_db_and_collections():
+    await db.create_collection("age_groups")
 
 def get_database():
     return db
