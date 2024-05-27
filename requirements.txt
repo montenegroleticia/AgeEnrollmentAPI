@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pymongo
+motor
+pytest
+pytest-asyncio
+python-dotenv
