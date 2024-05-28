@@ -37,3 +37,9 @@ localhost:8000
 ```bash
 docker compose run api pytest
 ```
+
+4. Run lint with flake8
+
+```bash
+docker compose run api flake8
+```

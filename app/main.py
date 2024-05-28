@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .controllers.age_group_controller import age_groups_router
+from .routers.age_group_router import age_groups_router
 
 app = FastAPI()
 

@@ -9,4 +9,5 @@ class Settings:
     BASIC_AUTH_USERNAME: str = os.getenv("BASIC_AUTH_USERNAME", "admin")
     BASIC_AUTH_PASSWORD: str = os.getenv("BASIC_AUTH_PASSWORD", "password")
 
+
 settings = Settings()
