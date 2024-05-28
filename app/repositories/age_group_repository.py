@@ -14,3 +14,7 @@ async def get_age_groups():
         if "_id" in age_group:
             age_group["_id"] = str(age_group["_id"])
     return age_groups
+
+async def delete_age_group(id: str):
+    result = await db.age_groups.delete_one({"_id": ObjectId(id)})
+    return result.deleted_count
