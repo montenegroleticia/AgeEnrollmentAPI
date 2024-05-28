@@ -9,6 +9,8 @@ def test_app():
     yield client
 
 @pytest.fixture(scope="module")
-async def test_db():
+async def test_db(test_app):
     db = get_database()
+    await db.age_groups.drop()
     yield db
+    await db.age_groups.drop()
