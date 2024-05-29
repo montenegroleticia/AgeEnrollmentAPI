@@ -45,3 +45,13 @@ async def test_enrollments(test_app):
         response = await async_client.get("/enrollments/")
         assert response.status_code == 200
         assert isinstance(response.json(), list)
+
+@pytest.mark.asyncio(scope='module')
+async def test_get_enrollment_status(test_app):
+    async with AsyncClient(app=test_app, base_url="http://test") as async_client:
+        response = await async_client.post("/enrollments/", json={"name": "Jane Doe", "age": 22, "cpf": "09876543211"})
+        enrollment_id = response.json()
+
+        response = await async_client.get(f"/enrollments/{enrollment_id}/status")
+        assert response.status_code == 200
+        assert response.json() == "pending"
