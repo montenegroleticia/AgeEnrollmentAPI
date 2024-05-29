@@ -33,8 +33,15 @@ async def test_delete_age_group_not_found(test_app):
         assert response.json() == {"detail": "Age group not found"}
 
 @pytest.mark.asyncio(scope='module')
+async def test_create_enrollment(test_app):
+    async with AsyncClient(app=test_app, base_url="http://test") as async_client:
+        response = await async_client.post("/enrollments/", json={"name": "John Doe", "age": 20, "cpf": "12345678900"})
+        assert response.status_code == 200
+        assert isinstance(response.json(), str)
+
+@pytest.mark.asyncio(scope='module')
 async def test_enrollments(test_app):
-    async with AsyncClient(app=test_app, base_url="http://test_enrollments") as async_client:
+    async with AsyncClient(app=test_app, base_url="http://test") as async_client:
         response = await async_client.get("/enrollments/")
         assert response.status_code == 200
         assert isinstance(response.json(), list)
