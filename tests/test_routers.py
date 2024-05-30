@@ -54,12 +54,20 @@ async def test_delete_age_group_not_found(test_app):
 @pytest.mark.asyncio(scope='module')
 async def test_create_enrollment(test_app):
     async with AsyncClient(app=test_app, base_url="http://test") as async_client:
+        response = await async_client.post("/age-groups/", json={"min_age": 18, "max_age": 25}, auth=("admin", "password"))
         response = await async_client.post("/enrollments/", json={"name": "John Doe", "age": 20, "cpf": "12345678900"}, auth=("admin", "password"))
         assert response.status_code == 200
         assert isinstance(response.json(), str)
 
 @pytest.mark.asyncio(scope='module')
-async def test_enrollments(test_app):
+async def test_create_enrollment_with_invalid_age(test_app):
+    async with AsyncClient(app=test_app, base_url="http://test") as async_client:
+        response = await async_client.post("/age-groups/", json={"min_age": 18, "max_age": 25}, auth=("admin", "password"))
+        response = await async_client.post("/enrollments/", json={"name": "John Doe", "age": 2, "cpf": "12345678900"}, auth=("admin", "password"))
+        assert response.status_code == 400
+
+@pytest.mark.asyncio(scope='module')
+async def test_get_enrollments(test_app):
     async with AsyncClient(app=test_app, base_url="http://test") as async_client:
         response = await async_client.get("/enrollments/", auth=("admin", "password"))
         assert response.status_code == 200

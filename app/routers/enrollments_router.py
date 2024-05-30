@@ -1,5 +1,5 @@
 import threading
-from app.controllers.enrollments_controller import check_enrollment_status, view_enrollments
+from app.controllers.enrollments_controller import check_enrollment_status, register_enrollment, view_enrollments
 from fastapi import APIRouter
 from app.queue.enrollment_queue import EnrollmentQueue
 from app.schemas.enrollments_schemas import EnrollmentCreate
@@ -12,7 +12,8 @@ processing_thread = threading.Thread(target=enrollment_queue.process_enrollments
 processing_thread.start()
 
 @enrollments_router.post("/", response_model=str)
-def post_enrollment(enrollment: EnrollmentCreate):
+async def post_enrollment(enrollment: EnrollmentCreate):
+    await register_enrollment(enrollment.age)
     return enrollment_queue.add_enrollment(enrollment)
 
 @enrollments_router.get("/{id}/status", response_model=str)
