@@ -3,7 +3,6 @@ from app.repositories.enrollments_repository import find_enrollment_status, get_
 
 async def check_age_group_exists_for_age(age: int):
     age_groups = await get_age_groups()
-    print(age_groups)
     for age_group in age_groups:
         if age_group['min_age'] <= age <= age_group['max_age']:
             return True

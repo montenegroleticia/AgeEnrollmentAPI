@@ -1,8 +1,8 @@
+import secrets
+import logging
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-import secrets
 from app.config import settings
-import logging
 
 security = HTTPBasic()
 

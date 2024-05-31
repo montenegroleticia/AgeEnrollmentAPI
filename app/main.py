@@ -4,6 +4,7 @@ from .routers.auth_routers import auth_router
 from .routers.age_group_router import age_groups_router
 from .routers.enrollments_router import enrollments_router
 from app.queue.enrollment_queue import EnrollmentQueue
+from contextlib import asynccontextmanager
 
 app = FastAPI()
 
@@ -17,6 +18,7 @@ app.include_router(enrollments_router, prefix="/enrollments", tags=["enrollments
 def read_root():
     return {"Hello": "World"}
 
-@app.on_event("shutdown")
-def shutdown_event():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
     enrollment_queue.shutdown_event()

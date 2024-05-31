@@ -1,6 +1,7 @@
 import threading
-from app.controllers.enrollments_controller import check_enrollment_status, register_enrollment, view_enrollments
 from fastapi import APIRouter
+from contextlib import asynccontextmanager
+from app.controllers.enrollments_controller import check_enrollment_status, register_enrollment, view_enrollments
 from app.queue.enrollment_queue import EnrollmentQueue
 from app.schemas.enrollments_schemas import EnrollmentCreate
 
@@ -24,7 +25,8 @@ async def get_enrollment_status(id: str):
 async def get_enrollments():
     return await view_enrollments()
 
-@enrollments_router.on_event("shutdown")
-def shutdown_event():
+@asynccontextmanager
+async def lifespan(router: APIRouter):
+    yield
     enrollment_queue.stop_processing()
     processing_thread.join()
